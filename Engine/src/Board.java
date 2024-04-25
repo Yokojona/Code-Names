@@ -1,3 +1,7 @@
 public class Board {
-    WordCard[] wordCards = new WordCard[25];
+    private final int rows;
+    private final int columns;
+    public Board(int rows, int columns) {this.rows = rows;this.columns = columns;}
+    public int getColumns() {return columns;}
+    public int getRows() {return rows;}
 }

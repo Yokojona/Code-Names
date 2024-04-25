@@ -1,5 +1,8 @@
 
 public class EngineImp implements Engine {
+
+    public EngineImp() {}
+
     @Override
     public void readSystemXML() {
 

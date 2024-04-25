@@ -2,8 +2,8 @@ public class WordCard {
     private final String word;
     private final int num;
     private final char team;
-    private boolean check;
-    public WordCard() {this.word = "";this.num = 0;this.team = '\0'; check = false;}
+    private boolean check = false;
+    public WordCard() {this.word = "";this.num = 0;this.team = '\0';}
     public WordCard(String word, int num, char team ) {this.word = word;this.num = num;this.team = team;}
     public String getWord() {return word;}
     public int getNum() {return num;}

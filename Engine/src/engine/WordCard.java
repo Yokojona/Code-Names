@@ -1,3 +1,5 @@
+package engine;
+
 public class WordCard {
     private final String word;
     private final int num;

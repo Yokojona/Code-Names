@@ -1,6 +1,8 @@
+package engine;
+
 public interface Engine {
-    public void readSystemXML();
-    public void displayGameDetails();
+    public boolean readSpecXML(String file_path);
+    public GameSpec getGameSpec();
     public void startNewGame();
     public void gameTurn();
     public void gameStatus();

@@ -5,25 +5,57 @@ import engine.EngineImp;
 import engine.GameSpec;
 
 public class UIImp implements UI {
-    Engine engine;
+    Engine e;
     public UIImp() {
-        this.engine = new EngineImp();
+        e = new EngineImp();
     }
 
     @Override
     public void sendFilePathToEngine(String filePath) {
-        this.engine.readSpecXML(filePath);
+        int valid = e.readSpecXML(filePath);
+        if (valid == 0) {
+            System.out.println("File loaded successfully");
+        }
+        else {
+            System.out.println("Error:");
+            if (valid == 1) {
+                System.out.println("File not found (or is not .xml)");
+            } else if (valid == 2) {
+                System.out.println("More word cards than words");
+            } else if (valid == 3) {
+                System.out.println("More black word cards than black words");
+            } else if (valid == 4) {
+                System.out.println("More team cards than word cards");
+            } else if (valid == 5) {
+                System.out.println("Board dimensions don't fit the number of cards");
+            } else if (valid == 6) {
+                System.out.println("Team names are not unique");
+            } else {
+                System.out.println("Unexpected error");
+            }
+        }
     }
 
     @Override
     public void displayGameSpec() {
-        GameSpec spec = this.engine.getGameSpec();
-        System.out.println("Game Spec:\n");
-        System.out.println("file path: " + spec.getFile_path() + "\n");
-        System.out.println("card count: " + spec.getCards_count() + "\n");
-        System.out.println("black card count: " + spec.getBlack_cards_count() + "\n");
-        System.out.println("dimensions: " + spec.getRows() + "x" + spec.getColumns() + "\n");
-        for (int i = 0; i < spec.getTeam_names().length; i++)
-            System.out.println(spec.getTeam_names()[i] + ": " + spec.getTeam_cards_count()[i] + " cards" + "\n");
+        GameSpec spec = e.getGameSpec();
+        if (spec != null) {
+            System.out.println("Game Spec:\n");
+            System.out.println("file path: " + spec.getFile_path() + "\n");
+            System.out.println("card count: " + spec.getCards_count() + "\n");
+            System.out.println("black card count: " + spec.getBlack_cards_count() + "\n");
+            System.out.println("dimensions: " + spec.getRows() + "x" + spec.getColumns() + "\n");
+            for (int i = 0; i < spec.getTeam_names().length; i++)
+                System.out.println(spec.getTeam_names()[i] + ": " + spec.getTeam_cards_count()[i] + " cards" + "\n");
+        }
+        else {
+            System.out.println("Game Spec not found");
+        }
+    }
+
+    @Override
+    public void exitGame() {
+        System.out.println("GoodBye!");
+        e.exitSystem();
     }
 }

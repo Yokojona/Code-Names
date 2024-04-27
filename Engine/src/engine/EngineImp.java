@@ -1,14 +1,13 @@
 package engine;
 
 public class EngineImp implements Engine {
-    private Game game;
     private GameSpec spec;
 
     public EngineImp() {
     }
 
     @Override
-    public boolean readSpecXML(String file_path) {
+    public int readSpecXML(String file_path) {
         // change this to getting the data from the file
         String[] game_words = new String[]{"apple", "apple", "banana", "banana", "cucumber",
                 "cucumber", "drink", "drink", "escargot", "escargot",
@@ -40,7 +39,11 @@ public class EngineImp implements Engine {
         spec = new GameSpec(file_path, game_words, black_words,
                 cards_count, black_cards_count, rows, columns,
                 team_names, team_cards_count);
-        return spec.isValid();
+        int errorCode = spec.isValid();
+        boolean validSpec = errorCode == 0;
+        if (!validSpec)
+            spec = null;
+        return errorCode;
     }
 
     @Override
@@ -48,7 +51,6 @@ public class EngineImp implements Engine {
 
     @Override
     public void startNewGame() {
-        game = new Game(spec);
     }
 
     @Override
@@ -65,6 +67,4 @@ public class EngineImp implements Engine {
     public void exitSystem() {
         System.exit(0);
     }
-
-    public Game getGame() {return game;}
 }

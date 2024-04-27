@@ -29,24 +29,24 @@ public class GameSpec {
         this.team_cards_count = team_cards_count;
     }
 
-    public boolean isValid() {
+    public int isValid() {
         if (file_path == null)
-            return false;
+            return 1;
         if (!file_path.endsWith(".xml"))
-            return false;
+            return 1;
         if (cards_count > game_words.length)
-            return false;
+            return 2;
         if (black_cards_count > black_words.length)
-            return false;
+            return 3;
         if (Arrays.stream(team_cards_count).sum() > cards_count)
-            return false;
+            return 4;
         if (rows * columns != cards_count + black_cards_count)
-            return false;
+            return 5;
         Set<String> name_set = new HashSet<>();
         for (String name : team_names)
             if (!name_set.add(name))
-                return false;
-        return true;
+                return 6;
+        return 0;
     }
 
     public String getFile_path() {return file_path;}

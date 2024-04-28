@@ -40,13 +40,13 @@ public class UIImp implements UI {
     public void displayGameSpec() {
         GameSpec spec = e.getGameSpec();
         if (spec != null) {
-            System.out.println("Game Spec:\n");
-            System.out.println("file path: " + spec.getFile_path() + "\n");
-            System.out.println("card count: " + spec.getCards_count() + "\n");
-            System.out.println("black card count: " + spec.getBlack_cards_count() + "\n");
-            System.out.println("dimensions: " + spec.getRows() + "x" + spec.getColumns() + "\n");
+            System.out.println("Game Spec:");
+            System.out.println("file path: " + spec.getFile_path());
+            System.out.println("card count: " + spec.getCards_count());
+            System.out.println("black card count: " + spec.getBlack_cards_count());
+            System.out.println("dimensions: " + spec.getRows() + "x" + spec.getColumns());
             for (int i = 0; i < spec.getTeam_names().length; i++)
-                System.out.println(spec.getTeam_names()[i] + ": " + spec.getTeam_cards_count()[i] + " cards" + "\n");
+                System.out.println(spec.getTeam_names()[i] + ": " + spec.getTeam_cards_count()[i] + " cards");
         }
         else {
             System.out.println("Game Spec not found");
@@ -55,7 +55,7 @@ public class UIImp implements UI {
 
     @Override
     public void exitGame() {
-        System.out.println("GoodBye!");
+        System.out.println("Goodbye!");
         e.exitSystem();
     }
 }

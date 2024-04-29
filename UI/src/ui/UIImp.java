@@ -66,7 +66,7 @@ public class UIImp implements UI {
         Game game = e.getGame();
         if (game != null) {
             WordCard[] deck = game.getDeck();
-            BoardPrinter.displayBoard(deck, e.getGameSpec().getRows(), e.getGameSpec().getColumns());
+            BoardPrinter.displayBoard(deck, e.getGameSpec().getRows(), e.getGameSpec().getColumns(), true);
         }
         else {
             System.out.println("Game not found");

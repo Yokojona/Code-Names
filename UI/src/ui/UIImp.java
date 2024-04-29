@@ -1,8 +1,6 @@
 package ui;
 
-import engine.Engine;
-import engine.EngineImp;
-import engine.GameSpec;
+import engine.*;
 
 public class UIImp implements UI {
     Engine e;
@@ -50,6 +48,25 @@ public class UIImp implements UI {
         }
         else {
             System.out.println("Game Spec not found");
+        }
+    }
+
+    public void startNewGame() {
+        e.startNewGame();
+        System.out.println("New game started");
+    }
+
+    @Override
+    public void displayGame() {
+        Game game = e.getGame();
+        if (game != null) {
+            WordCard[] deck = game.getDeck();
+            for (WordCard wordCard : deck) {
+                System.out.println(wordCard.toString());
+            }
+        }
+        else {
+            System.out.println("Game not found");
         }
     }
 

@@ -5,6 +5,8 @@ public class Main {
         UI ui = new UIImp();
         ui.sendFilePathToEngine(args[0]);
         ui.displayGameSpec();
+        ui.startNewGame();
+        ui.displayGame();
         ui.exitGame();
     }
 }

@@ -5,6 +5,6 @@ public interface Engine {
     public GameSpec getGameSpec();
     public void startNewGame();
     public void gameTurn();
-    public void gameStatus();
+    public Game getGame();
     public void exitSystem();
 }

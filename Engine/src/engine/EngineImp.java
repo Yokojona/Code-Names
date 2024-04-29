@@ -1,6 +1,7 @@
 package engine;
 
 public class EngineImp implements Engine {
+    private Game game;
     private GameSpec spec;
 
     public EngineImp() {
@@ -22,6 +23,7 @@ public class EngineImp implements Engine {
 
     @Override
     public void startNewGame() {
+        game = new Game(spec);
     }
 
     @Override
@@ -30,8 +32,8 @@ public class EngineImp implements Engine {
     }
 
     @Override
-    public void gameStatus() {
-
+    public Game getGame() {
+        return game;
     }
 
     @Override

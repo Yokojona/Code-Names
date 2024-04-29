@@ -52,8 +52,13 @@ public class UIImp implements UI {
     }
 
     public void startNewGame() {
-        e.startNewGame();
-        System.out.println("New game started");
+        if (e.getGameSpec() != null) {
+            e.startNewGame();
+            System.out.println("New game started");
+        }
+        else {
+            System.out.println("No game spec found");
+        }
     }
 
     @Override
@@ -61,9 +66,7 @@ public class UIImp implements UI {
         Game game = e.getGame();
         if (game != null) {
             WordCard[] deck = game.getDeck();
-            for (WordCard wordCard : deck) {
-                System.out.println(wordCard.toString());
-            }
+            BoardPrinter.displayBoard(deck, e.getGameSpec().getRows(), e.getGameSpec().getColumns());
         }
         else {
             System.out.println("Game not found");

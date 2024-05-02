@@ -10,7 +10,7 @@ public class EngineImp implements Engine {
     @Override
     public int readSpecXML(String file_path) {
         GameSpec newSpec = XML2GameSpec.ParseFile(file_path);
-        if (newSpec == null) { return -1; }
+        if (newSpec == null) { return 1; }
         int errorCode = newSpec.isValid();
         boolean validSpec = errorCode == 0;
         if (validSpec)
@@ -38,6 +38,6 @@ public class EngineImp implements Engine {
 
     @Override
     public void exitSystem() {
-        System.exit(0);
+
     }
 }

@@ -57,8 +57,13 @@ public class UIImp implements UI {
             System.out.println("New game started");
         }
         else {
-            System.out.println("No game spec found");
+            System.out.println("Game Spec not found");
         }
+    }
+
+    @Override
+    public void makeTurn() {
+
     }
 
     @Override

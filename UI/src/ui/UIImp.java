@@ -2,6 +2,8 @@ package ui;
 
 import engine.*;
 
+import java.util.Scanner;
+
 public class UIImp implements UI {
     Engine e;
     public UIImp() {
@@ -63,15 +65,44 @@ public class UIImp implements UI {
 
     @Override
     public void makeTurn() {
+        Scanner in = new Scanner(System.in);
+        if (isActiveGame()) {
+            int i = e.getGame().getCurr_team_i();
+            System.out.println("Team name: " + e.getGameSpec().getTeam_names()[i]);
+            int score = e.getGame().getTeam_score()[i];
+            System.out.println("Team Score: " + score + "/" + e.getGameSpec().getTeam_cards_count()[i]);
+            System.out.println("Hinter Phase (board revealed!):");
+            BoardPrinter.displayBoard(e.getGame().getDeck(),
+                    e.getGameSpec().getRows(), e.getGameSpec().getColumns(), false);
+            System.out.println("Enter Hint:");
+            String hint = in.nextLine();
+            System.out.println("Enter number of relevant words:");
+            boolean flag = false;
+            while (!flag) {
+                if (in.hasNextInt()) {
+                    int words = in.nextInt();
+                    if (words > e.getGameSpec().getCards_count() + e.getGameSpec().getBlack_cards_count()) {
+                        System.out.println("too many words");
+                    }
+                    else {
+                        flag = true;
+                    }
+                } else
+                    System.out.println("Only numbers please");
+            }
+            e.gameTurn();
+        }
+        else {
+            System.out.println("Game isn't active");
+        }
 
     }
 
     @Override
-    public void displayGame() {
-        Game game = e.getGame();
-        if (game != null) {
-            WordCard[] deck = game.getDeck();
-            BoardPrinter.displayBoard(deck, e.getGameSpec().getRows(), e.getGameSpec().getColumns(), true);
+    public void displayGame(boolean hidden) {
+        if (e.getGame() != null) {
+            BoardPrinter.displayBoard(e.getGame().getDeck(),
+                    e.getGameSpec().getRows(), e.getGameSpec().getColumns(), false);
         }
         else {
             System.out.println("Game not found");
@@ -82,5 +113,17 @@ public class UIImp implements UI {
     public void exitGame() {
         System.out.println("Goodbye!");
         e.exitSystem();
+    }
+
+    @Override
+    public String getCurrentTeam() {
+        int i = e.getGame().getCurr_team_i();
+        return e.getGameSpec().getTeam_names()[i];
+    }
+
+    @Override
+    public boolean isActiveGame() {
+        Game g = e.getGame();
+        return (g != null);
     }
 }

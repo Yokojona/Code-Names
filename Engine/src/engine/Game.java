@@ -3,6 +3,7 @@ package engine;
 public class Game {
     private final WordCard[] deck;
     private final int[] team_score;
+    private int curr_team_i = 0;
     private int winner = -1;
     private boolean gameOver = false;
 
@@ -43,5 +44,16 @@ public class Game {
 
     public boolean isGameOver() {
         return gameOver;
+    }
+
+    public int getCurr_team_i() {
+        return curr_team_i;
+    }
+
+    public void increment_curr_team_i() {
+        curr_team_i++;
+        if (curr_team_i >= team_score.length) {
+            curr_team_i = 0;
+        }
     }
 }

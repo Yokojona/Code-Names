@@ -5,6 +5,10 @@ public interface UI {
     public void displayGameSpec();
     public void startNewGame();
     public void makeTurn();
-    public void displayGame();
+    public void displayGame(boolean hidden);
     public void exitGame();
+
+    public String getCurrentTeam();
+
+    boolean isActiveGame();
 }

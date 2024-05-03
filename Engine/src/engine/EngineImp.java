@@ -28,7 +28,7 @@ public class EngineImp implements Engine {
 
     @Override
     public void gameTurn() {
-
+        game.increment_curr_team_i();
     }
 
     @Override

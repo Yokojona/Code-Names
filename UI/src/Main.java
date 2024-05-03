@@ -11,7 +11,12 @@ public class Main {
             System.out.println("(1) Load XML");
             System.out.println("(2) Game Spec");
             System.out.println("(3) New Game");
-            System.out.println("(4) Make Turn");
+            if (ui.isActiveGame()) {
+                System.out.println("(4) Make Turn " + "(" + ui.getCurrentTeam() + ")");
+            }
+            else {
+                System.out.println("(4) Make Turn");
+            }
             System.out.println("(5) Game Status");
             System.out.println("(6) Exit");
             if (scanner.hasNextInt()) {
@@ -32,7 +37,7 @@ public class Main {
                     ui.makeTurn();
                 }
                 else if (option == 5) {
-                    ui.displayGame();
+                    ui.displayGame(false);
                 }
                 else if (option == 6) {
                     ui.exitGame();

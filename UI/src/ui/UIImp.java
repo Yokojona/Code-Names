@@ -89,8 +89,10 @@ public class UIImp implements UI {
                     else {
                         flag = true;
                     }
-                } else
+                } else {
                     System.out.println("Only numbers please");
+                    in.nextLine();
+                }
             }
             e.gameTurn();
         }

@@ -1,5 +1,8 @@
 package engine;
 
+import dto.*;
+import engine.jaxb.JaxbParser;
+
 public class EngineImp implements Engine {
     private Game game;
     private GameSpec spec;
@@ -9,9 +12,9 @@ public class EngineImp implements Engine {
 
     @Override
     public int readSpecXML(String file_path) {
-        GameSpec newSpec = XML2GameSpec.ParseFile(file_path);
-        if (newSpec == null) { return 1; }
-        int errorCode = newSpec.isValid();
+        GameSpec newSpec = JaxbParser.ParseFile(file_path);
+        if (newSpec == null) { return -1; }
+        int errorCode = SpecValidator.isValid(newSpec);
         boolean validSpec = errorCode == 0;
         if (validSpec)
             spec = newSpec;

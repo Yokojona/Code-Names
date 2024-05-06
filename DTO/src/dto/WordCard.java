@@ -1,4 +1,4 @@
-package engine;
+package dto;
 
 public class WordCard {
     private final String word;
@@ -11,18 +11,7 @@ public class WordCard {
         this.team = team;
     }
 
-    @Override
-    public String toString() {
-        return "WordCard{" +
-                "word='" + word + '\'' +
-                ", num=" + num +
-                ", team='" + team + '\'' +
-                ", flag=" + flag +
-                '}';
-    }
-
     public void setFlag() {this.flag = true;}
-    public void setFlag(boolean flag) {this.flag = flag;}
     public String getWord() {return word;}
     public int getNum() {return num;}
     public String getTeam() {return team;}

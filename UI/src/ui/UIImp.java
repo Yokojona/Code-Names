@@ -1,5 +1,6 @@
 package ui;
 
+import dto.*;
 import engine.*;
 
 import java.util.Scanner;
@@ -67,6 +68,7 @@ public class UIImp implements UI {
     public void makeTurn() {
         Scanner in = new Scanner(System.in);
         if (isActiveGame()) {
+            Game game = e.getGame();
             int i = e.getGame().getCurr_team_i();
             System.out.println("Team name: " + e.getGameSpec().getTeam_names()[i]);
             int score = e.getGame().getTeam_score()[i];

@@ -1,8 +1,11 @@
 package engine;
 
+import dto.GameSpec;
+import dto.WordCard;
+
 import java.util.*;
 
-public class GameSpec2Deck {
+public class WordCardFactory {
     static public WordCard[] initializeDeck(GameSpec spec) {
         int totalCards = spec.getCards_count() + spec.getBlack_cards_count();
         WordCard[] deck = new WordCard[totalCards];

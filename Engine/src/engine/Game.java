@@ -1,5 +1,8 @@
 package engine;
 
+import dto.GameSpec;
+import dto.WordCard;
+
 public class Game {
     private final WordCard[] deck;
     private final int[] team_score;
@@ -8,7 +11,7 @@ public class Game {
     private boolean gameOver = false;
 
     public Game(GameSpec spec) {
-        deck = GameSpec2Deck.initializeDeck(spec);
+        deck = WordCardFactory.initializeDeck(spec);
         team_score = new int[spec.getTeam_names().length];
         winner = -1;
     }

@@ -68,11 +68,10 @@ public class UIImp implements UI {
     public void makeTurn() {
         Scanner in = new Scanner(System.in);
         if (isActiveGame()) {
-            Game game = e.getGame();
-            int i = e.getGame().getCurr_team_i();
-            System.out.println("Team name: " + e.getGameSpec().getTeam_names()[i]);
-            int score = e.getGame().getTeam_score()[i];
-            System.out.println("Team Score: " + score + "/" + e.getGameSpec().getTeam_cards_count()[i]);
+            int curr_team_i = e.getGame().getCurr_team_i();
+            System.out.println("Team name: " + e.getGameSpec().getTeam_names()[curr_team_i]);
+            int score = e.getGame().getTeam_score()[curr_team_i];
+            System.out.println("Team Score: " + score + "/" + e.getGameSpec().getTeam_cards_count()[curr_team_i]);
             System.out.println("Hinter Phase (board revealed!):");
             BoardPrinter.displayBoard(e.getGame().getDeck(),
                     e.getGameSpec().getRows(), e.getGameSpec().getColumns(), false);
@@ -80,11 +79,12 @@ public class UIImp implements UI {
             String hint = in.nextLine();
             System.out.println("Enter number of relevant words:");
             boolean flag = false;
+            int words = 0;
             while (!flag) {
                 if (in.hasNextInt()) {
-                    int words = in.nextInt();
-                    if (words > e.getGameSpec().getCards_count() + e.getGameSpec().getBlack_cards_count()) {
-                        System.out.println("too many words");
+                    words = in.nextInt();
+                    if (words < 1 || words > e.getGameSpec().getCards_count() + e.getGameSpec().getBlack_cards_count()) {
+                        System.out.println("invalid number of relevant words");
                     }
                     else {
                         flag = true;
@@ -94,12 +94,74 @@ public class UIImp implements UI {
                     in.nextLine();
                 }
             }
-            e.gameTurn();
+            System.out.println("Guesser Phase (board hidden!):");
+            System.out.println("Hint: " + hint);
+            BoardPrinter.displayBoard(e.getGame().getDeck(),
+                    e.getGameSpec().getRows(), e.getGameSpec().getColumns(), true);
+            int[] guesses = new int[words];
+            System.out.println("Enter Guesses (card numbers):");
+            flag = false;
+            int i = 0;
+            while (!flag) {
+                if (in.hasNextInt()) {
+                    int guess = in.nextInt();
+                    if (guess < 1 || guess > e.getGameSpec().getCards_count() + e.getGameSpec().getBlack_cards_count()) {
+                        System.out.println("invalid guess number");
+                    }
+                    else {
+                        guesses[i] = guess - 1;
+                        i++;
+                        if (i == words) flag = true;
+                    }
+                } else {
+                    System.out.println("Only numbers please");
+                    in.nextLine();
+                }
+            }
+            int[] turnResults = e.gameTurn(guesses);
+            System.out.println("Turn Results:");
+            for (i = 0; i < turnResults.length; i++) {
+                System.out.println("Guess #" + (i + 1) + ": [" + (guesses[i] + 1) + "] " + e.getGame().getDeck()[guesses[i]].getWord());
+                if (turnResults[i] == 1) {
+                    System.out.println("Correct! (+1 point)");
+                }
+                else if (turnResults[i] == 2) {
+                    System.out.println("Opposing team word! (+1 point to " + e.getGame().getDeck()[guesses[i]].getTeam() + ")");
+                }
+                else if (turnResults[i] == 3) {
+                    System.out.println("Black word! (game over)");
+                }
+                else if (turnResults[i] == 4) {
+                    System.out.println("Neutral word! (no points)");
+                }
+                else {
+                    System.out.println("Unexpected error");
+                }
+            }
+            score = e.getGame().getTeam_score()[curr_team_i];
+            System.out.println("Team Score: " + score + "/" + e.getGameSpec().getTeam_cards_count()[curr_team_i]);
+            if (e.getGame().isGameOver()) {
+                System.out.println("Game Over!");
+                int team_i = 0;
+                while (team_i < e.getGameSpec().getTeam_names().length) {
+                    score = e.getGame().getTeam_score()[team_i];
+                    System.out.println(e.getGameSpec().getTeam_names()[team_i] + ": " + score + "/" + e.getGameSpec().getTeam_cards_count()[team_i]);                    team_i++;
+                }
+                e.exitGame();
+            }
+            else if (e.getGame().getWinner() != -1) {
+                System.out.println("Winner: " + e.getGameSpec().getTeam_names()[e.getGame().getWinner()]);
+                int team_i = 0;
+                while (team_i < e.getGameSpec().getTeam_names().length) {
+                    score = e.getGame().getTeam_score()[team_i];
+                    System.out.println(e.getGameSpec().getTeam_names()[team_i] + ": " + score + "/" + e.getGameSpec().getTeam_cards_count()[team_i]);                    team_i++;
+                }
+                e.exitGame();
+            }
         }
         else {
             System.out.println("Game isn't active");
         }
-
     }
 
     @Override
@@ -116,7 +178,7 @@ public class UIImp implements UI {
     @Override
     public void exitGame() {
         System.out.println("Goodbye!");
-        e.exitSystem();
+        System.exit(0);
     }
 
     @Override

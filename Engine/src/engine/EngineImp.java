@@ -34,15 +34,16 @@ public class EngineImp implements Engine {
     @Override
     public int[] gameTurn(int[] guesses) {
         int[] res = new int[guesses.length];
-        int i = 0;
+        int i = 0, curr_team_i = game.getCurr_team_i();
         for (int guess : guesses) {
-            game.getDeck()[guess].setFlag();
             WordCard word = game.getDeck()[guess];
-            if (Objects.equals(word.getTeam(), spec.getTeam_names()[game.getCurr_team_i()])) {
-                game.getTeam_score()[game.getCurr_team_i()]++;
+            word.setFlag();
+            if (Objects.equals(word.getTeam(), spec.getTeam_names()[curr_team_i])) {
+                game.getTeam_score()[curr_team_i]++;
                 res[i] = 1;
-                if (game.getTeam_score()[game.getCurr_team_i()] == spec.getTeam_cards_count()[game.getCurr_team_i()]) {
-                    game.setWinner(game.getCurr_team_i());
+                if (game.getTeam_score()[curr_team_i] == spec.getTeam_cards_count()[curr_team_i]) {
+                    game.setWinner(curr_team_i);
+                    break;
                 }
             }
             else if (!Objects.equals(word.getTeam(), "BLACK") && word.getTeam() != null) {
@@ -55,10 +56,15 @@ public class EngineImp implements Engine {
                 }
                 game.getTeam_score()[opposing_team_i]++;
                 res[i] = 2;
+                if (game.getTeam_score()[opposing_team_i] == spec.getTeam_cards_count()[opposing_team_i]) {
+                    game.setWinner(opposing_team_i);
+                    break;
+                }
             }
             else if (Objects.equals(word.getTeam(), "BLACK")) {
                 game.setGameOver();
                 res[i] = 3;
+                break;
             }
             else if (word.getTeam() == null) {
                 res[i] = 4;
@@ -70,12 +76,8 @@ public class EngineImp implements Engine {
     }
 
     @Override
-    public Game getGame() {
-        return game;
-    }
+    public Game getGame() { return game; }
 
     @Override
-    public void exitGame() {
-        game = null;
-    }
+    public void exitGame() { game = null; }
 }

@@ -3,7 +3,9 @@ package ui;
 import dto.*;
 import engine.*;
 
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class UIImp implements UI {
     Engine e;
@@ -77,7 +79,7 @@ public class UIImp implements UI {
             BoardPrinter.displayBoard(game.getDeck(),
                     spec.getRows(), spec.getColumns(), false);
             System.out.println("Enter Hint:");
-            String hint = scanner.nextLine();
+            String hint = scanner.next();
             System.out.println("Enter number of relevant words:");
             boolean flag = false;
             int words = 0;
@@ -86,6 +88,7 @@ public class UIImp implements UI {
                     words = scanner.nextInt();
                     if (words < 1 || words > spec.getCards_count() + spec.getBlack_cards_count()) {
                         System.out.println("invalid number of relevant words");
+                        scanner.nextLine();
                     }
                     else {
                         flag = true;
@@ -99,25 +102,38 @@ public class UIImp implements UI {
             System.out.println("Hint: " + hint);
             BoardPrinter.displayBoard(game.getDeck(),
                     spec.getRows(), spec.getColumns(), true);
-            int[] guesses = new int[words];
+            Set<Integer> guessesSet = new HashSet<>();
             System.out.println("Enter Guesses (card numbers):");
             flag = false;
-            int i = 0;
             while (!flag) {
                 if (scanner.hasNextInt()) {
                     int guess = scanner.nextInt();
                     if (guess < 1 || guess > spec.getCards_count() + spec.getBlack_cards_count()) {
                         System.out.println("invalid guess number");
+                        scanner.nextLine();
+                    }
+                    else if (game.getDeck()[guess - 1].isFlag()) {
+                        System.out.println("Word already guessed");
+                        scanner.nextLine();
+                    }
+                    else if (guessesSet.contains(guess - 1)) {
+                        System.out.println("Word already selected");
+                        scanner.nextLine();
                     }
                     else {
-                        guesses[i] = guess - 1;
-                        i++;
-                        if (i == words) flag = true;
+                        guessesSet.add(guess - 1);
+                        if (guessesSet.size() == words) flag = true;
                     }
                 } else {
                     System.out.println("Only numbers please");
                     scanner.nextLine();
                 }
+            }
+            int[] guesses = new int[words];
+            int i = 0;
+            for (int guess : guessesSet) {
+                guesses[i] = guess;
+                i++;
             }
             int[] turnResults = e.gameTurn(guesses);
             game = e.getGame();

@@ -15,7 +15,7 @@ public class EngineImp implements Engine {
     @Override
     public int readSpecXML(String file_path) {
         GameSpec newSpec = JaxbParser.ParseFile(file_path);
-        if (newSpec == null) { return -1; }
+        if (newSpec == null) { return 1; }
         int errorCode = SpecValidator.isValid(newSpec);
         boolean validSpec = errorCode == 0;
         if (validSpec)
@@ -24,12 +24,10 @@ public class EngineImp implements Engine {
     }
 
     @Override
-    public GameSpec getGameSpec() {return spec;}
+    public GameSpec getGameSpec() { return spec; }
 
     @Override
-    public void startNewGame() {
-        game = new Game(spec);
-    }
+    public void startNewGame() { game = new Game(spec); }
 
     @Override
     public int[] gameTurn(int[] guesses) {

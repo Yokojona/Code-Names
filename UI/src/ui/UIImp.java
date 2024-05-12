@@ -3,9 +3,7 @@ package ui;
 import dto.*;
 import engine.*;
 
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class UIImp implements UI {
     Engine e;
@@ -16,27 +14,7 @@ public class UIImp implements UI {
     @Override
     public void sendFilePathToEngine(String filePath) {
         int valid = e.readSpecXML(filePath);
-        if (valid == 0) {
-            System.out.println("File loaded successfully");
-        }
-        else {
-            System.out.println("Error:");
-            if (valid == 1) {
-                System.out.println("File not found (or is not .xml)");
-            } else if (valid == 2) {
-                System.out.println("More word cards than words");
-            } else if (valid == 3) {
-                System.out.println("More black word cards than black words");
-            } else if (valid == 4) {
-                System.out.println("More team cards than word cards");
-            } else if (valid == 5) {
-                System.out.println("Board dimensions don't fit the number of cards");
-            } else if (valid == 6) {
-                System.out.println("Team names are not unique");
-            } else {
-                System.out.println("Unexpected error");
-            }
-        }
+        FileLoadMessagePrinter.print(valid);
     }
 
     @Override
@@ -78,8 +56,9 @@ public class UIImp implements UI {
             System.out.println("Hinter Phase (board revealed!):");
             BoardPrinter.displayBoard(game.getDeck(),
                     spec.getRows(), spec.getColumns(), false);
+            scanner.nextLine();
             System.out.println("Enter Hint:");
-            String hint = scanner.next();
+            String hint = scanner.nextLine();
             System.out.println("Enter number of relevant words:");
             boolean flag = false;
             int words = 0;

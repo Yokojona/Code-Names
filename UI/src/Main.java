@@ -12,8 +12,9 @@ public class Main {
             if (scanner.hasNextInt()) {
                 option = scanner.nextInt();
                 if (option == 1) {
+                    scanner.nextLine();
                     System.out.println("Enter file path:");
-                    String path = scanner.next();
+                    String path = scanner.nextLine();
                     // C:\Users\yokoj\IdeaProjects\Code_Names\classic.xml
                     ui.sendFilePathToEngine(path);
                 } else if (option == 2) {

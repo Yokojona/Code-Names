@@ -1,5 +1,8 @@
 package engine;
 
+import dto.GameSpec;
+import dto.WordCard;
+
 public class Game {
     private final WordCard[] deck;
     private final int[] team_score;
@@ -8,7 +11,7 @@ public class Game {
     private boolean gameOver = false;
 
     public Game(GameSpec spec) {
-        deck = GameSpec2Deck.initializeDeck(spec);
+        deck = WordCardFactory.initializeDeck(spec);
         team_score = new int[spec.getTeam_names().length];
         winner = -1;
     }
@@ -25,26 +28,15 @@ public class Game {
             gameOver = true;
         }
     }
-
-    public void givePoint(int teamI) {
-        team_score[teamI] += 1;
-    }
-
-    public boolean winningCondition(int teamI, int team_card_count) {
-        if (team_score[teamI] == team_card_count) {
-            winner = teamI;
-            return true;
-        }
-        return false;
-    }
-
     public int getWinner() {
         return winner;
     }
+    public void setWinner(int winner) { this.winner = winner; }
 
     public boolean isGameOver() {
         return gameOver;
     }
+    public void setGameOver() { this.gameOver = true; }
 
     public int getCurr_team_i() {
         return curr_team_i;

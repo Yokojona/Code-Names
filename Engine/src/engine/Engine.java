@@ -1,10 +1,12 @@
 package engine;
 
+import dto.*;
+
 public interface Engine {
     public int readSpecXML(String file_path);
     public GameSpec getGameSpec();
     public void startNewGame();
-    public void gameTurn();
+    public int[] gameTurn(int[] guesses);
     public Game getGame();
-    public void exitSystem();
+    public void exitGame();
 }

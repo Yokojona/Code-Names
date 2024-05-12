@@ -1,6 +1,6 @@
 package ui;
 
-import engine.WordCard;
+import dto.WordCard;
 
 public class BoardPrinter {
     public static void displayBoard(WordCard[] deck, int rows, int columns, boolean hidden) {

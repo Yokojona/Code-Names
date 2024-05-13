@@ -1,4 +1,4 @@
-package ui;
+package ui.printer;
 
 import java.util.HashMap;
 import java.util.Map;

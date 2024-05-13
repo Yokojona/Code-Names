@@ -1,6 +1,7 @@
 package engine;
 
-import dto.*;
+import dto.GameSpec;
+import engine.game.Game;
 
 public interface Engine {
     public int readSpecXML(String file_path);

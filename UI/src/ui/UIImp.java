@@ -2,6 +2,11 @@ package ui;
 
 import dto.*;
 import engine.*;
+import engine.game.Game;
+import ui.printer.BoardPrinter;
+import ui.printer.FileLoadMessagePrinter;
+import ui.printer.MenuPrinter;
+import ui.printer.SpecPrinter;
 
 import java.util.*;
 
@@ -12,7 +17,35 @@ public class UIImp implements UI {
     }
 
     @Override
-    public void sendFilePathToEngine(String filePath) {
+    public void goToMenu(Scanner scanner) {
+        MenuPrinter.print(e);
+        if (scanner.hasNextInt()) {
+            int option = scanner.nextInt();
+            if (option == 1) {
+                sendFilePathToEngine(scanner);
+            } else if (option == 2) {
+                displayGameSpec();
+            } else if (option == 3) {
+                startNewGame();
+            } else if (option == 4) {
+                makeTurn(scanner);
+            } else if (option == 5) {
+                displayGame(false);
+            } else if (option == 6) {
+                exitGame();
+            } else
+                System.out.println("Invalid option");
+        } else {
+            System.out.println("Only numbers please");
+            scanner.nextLine();
+        }
+    }
+
+    @Override
+    public void sendFilePathToEngine(Scanner scanner) {
+        scanner.nextLine();
+        System.out.println("Enter file path:");
+        String filePath = scanner.nextLine();
         int valid = e.readSpecXML(filePath);
         FileLoadMessagePrinter.print(valid);
     }
@@ -20,18 +53,7 @@ public class UIImp implements UI {
     @Override
     public void displayGameSpec() {
         GameSpec spec = e.getGameSpec();
-        if (spec != null) {
-            System.out.println("Game Spec:");
-            System.out.println("file path: " + spec.getFile_path());
-            System.out.println("card count: " + spec.getCards_count());
-            System.out.println("black card count: " + spec.getBlack_cards_count());
-            System.out.println("dimensions: " + spec.getRows() + "x" + spec.getColumns());
-            for (int i = 0; i < spec.getTeam_names().length; i++)
-                System.out.println(spec.getTeam_names()[i] + ": " + spec.getTeam_cards_count()[i] + " cards");
-        }
-        else {
-            System.out.println("Game Spec not found");
-        }
+        SpecPrinter.print(spec);
     }
 
     public void startNewGame() {
@@ -46,7 +68,7 @@ public class UIImp implements UI {
 
     @Override
     public void makeTurn(Scanner scanner) {
-        if (isActiveGame()) {
+        if (e.getGame() != null) {
             Game game = e.getGame();
             GameSpec spec = e.getGameSpec();
             int curr_team_i = game.getCurr_team_i();
@@ -54,7 +76,7 @@ public class UIImp implements UI {
             int score = game.getTeam_score()[curr_team_i];
             System.out.println("Team Score: " + score + "/" + spec.getTeam_cards_count()[curr_team_i]);
             System.out.println("Hinter Phase (board revealed!):");
-            BoardPrinter.displayBoard(game.getDeck(),
+            BoardPrinter.print(game.getDeck(),
                     spec.getRows(), spec.getColumns(), false);
             scanner.nextLine();
             System.out.println("Enter Hint:");
@@ -79,7 +101,7 @@ public class UIImp implements UI {
             }
             System.out.println("Guesser Phase (board hidden!):");
             System.out.println("Hint: " + hint);
-            BoardPrinter.displayBoard(game.getDeck(),
+            BoardPrinter.print(game.getDeck(),
                     spec.getRows(), spec.getColumns(), true);
             Set<Integer> guessesSet = new HashSet<>();
             System.out.println("Enter Guesses (card numbers):");
@@ -164,8 +186,9 @@ public class UIImp implements UI {
 
     @Override
     public void displayGame(boolean hidden) {
+
         if (e.getGame() != null) {
-            BoardPrinter.displayBoard(e.getGame().getDeck(),
+            BoardPrinter.print(e.getGame().getDeck(),
                     e.getGameSpec().getRows(), e.getGameSpec().getColumns(), false);
         }
         else {
@@ -177,17 +200,5 @@ public class UIImp implements UI {
     public void exitGame() {
         System.out.println("Goodbye!");
         System.exit(0);
-    }
-
-    @Override
-    public String getCurrentTeam() {
-        int i = e.getGame().getCurr_team_i();
-        return e.getGameSpec().getTeam_names()[i];
-    }
-
-    @Override
-    public boolean isActiveGame() {
-        Game g = e.getGame();
-        return (g != null);
     }
 }

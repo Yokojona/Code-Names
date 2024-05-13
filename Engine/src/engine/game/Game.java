@@ -1,4 +1,4 @@
-package engine;
+package engine.game;
 
 import dto.GameSpec;
 import dto.WordCard;

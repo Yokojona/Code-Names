@@ -1,9 +1,9 @@
-package ui;
+package ui.printer;
 
 import dto.WordCard;
 
 public class BoardPrinter {
-    public static void displayBoard(WordCard[] deck, int rows, int columns, boolean hidden) {
+    public static void print(WordCard[] deck, int rows, int columns, boolean hidden) {
         int cardI = 0;
         int maxWidth = calculateMaxWidth(deck) + 8;
 

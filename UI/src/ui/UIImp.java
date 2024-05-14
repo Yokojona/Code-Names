@@ -3,18 +3,14 @@ package ui;
 import dto.*;
 import engine.*;
 import engine.game.Game;
-import ui.printer.BoardPrinter;
-import ui.printer.FileLoadMessagePrinter;
-import ui.printer.MenuPrinter;
-import ui.printer.SpecPrinter;
+import ui.printer.*;
 
 import java.util.*;
 
 public class UIImp implements UI {
-    Engine e;
-    public UIImp() {
-        e = new EngineImp();
-    }
+    private final Engine e;
+
+    public UIImp() { e = new EngineImp(); }
 
     @Override
     public void goToMenu(Scanner scanner) {
@@ -34,9 +30,9 @@ public class UIImp implements UI {
             } else if (option == 6) {
                 exitGame();
             } else
-                System.out.println("Invalid option");
+                System.out.println("Invalid option, please try again");
         } else {
-            System.out.println("Only numbers please");
+            System.out.println("Only numbers please, try again");
             scanner.nextLine();
         }
     }
@@ -68,7 +64,10 @@ public class UIImp implements UI {
 
     @Override
     public void makeTurn(Scanner scanner) {
-        if (e.getGame() != null) {
+        if (e.getGame() == null) {
+            System.out.println("Game isn't active");
+        }
+        else {
             Game game = e.getGame();
             GameSpec spec = e.getGameSpec();
             int curr_team_i = game.getCurr_team_i();
@@ -106,12 +105,12 @@ public class UIImp implements UI {
                 }
             }
             System.out.println("Guesser phase (board hidden!):");
-            System.out.println("Hint: " + hint);
             BoardPrinter.print(game.getDeck(),
                     spec.getRows(), spec.getColumns(), true);
+            System.out.println("Hint: " + hint);
             System.out.println("Guesses remaining: " + words);
-            int guessesNum = 0;
             System.out.println("Pick a card number (or 0 to end turn):");
+            int guessesNum = 0;
             flag = false;
             while (!flag) {
                 if (scanner.hasNextInt()) {
@@ -122,37 +121,19 @@ public class UIImp implements UI {
                     }
                     else {
                         int result = e.gameTurn(guess - 1);
-                        if (result == -1) {
-                            System.out.println("Invalid card number, please try again");
-                            scanner.nextLine();
-                        }
-                        else if (result == 0) {
-                            System.out.println("Word already guessed, please try again");
+                        GuessResultPrinter.print(result);
+                        if (result < 1) {
                             scanner.nextLine();
                         }
                         else {
                             guessesNum++;
-                            if (result == 1) {
-                                System.out.println("Correct! (+1 point)");
-                            }
-                            else if (result == 2) {
-                                System.out.println("Opposing team word! (+1 point to "
-                                        + game.getDeck()[guess - 1].getTeam() + ")");
-                            }
-                            else if (result == 3) {
-                                System.out.println("Black word!");
-                            }
-                            else if (result == 4) {
-                                System.out.println("Neutral word! (no points)");
-                            }
-                            else {
-                                System.out.println("Invalid guess");
-                            }
                             if (guessesNum == words || e.getGame().isGameOver()) {
                                 flag = true;
                                 e.nextTeam();
                             }
                             else {
+                                BoardPrinter.print(game.getDeck(),
+                                        spec.getRows(), spec.getColumns(), true);
                                 System.out.println("Guesses remaining: " + (words - guessesNum));
                                 System.out.println("Pick a card number (or 0 to end turn):");
                             }
@@ -163,28 +144,13 @@ public class UIImp implements UI {
                     scanner.nextLine();
                 }
             }
-            game = e.getGame();
-            spec = e.getGameSpec();
             score = game.getTeam_score()[curr_team_i];
             System.out.println("Team Score: " + score + "/" + spec.getTeam_cards_count()[curr_team_i]);
             if (game.isGameOver()) {
-                System.out.println("Game Over!");
-                for (int i = 0 ; i < spec.getTeam_names().length; i++) {
-                    score = game.getTeam_score()[i];
-                    if (game.getWinner() == i) {
-                        System.out.println(spec.getTeam_names()[i] + ": " + score
-                                + "/" + spec.getTeam_cards_count()[i] + " - Winner!");
-                    }
-                    else {
-                        System.out.println(spec.getTeam_names()[i] + ": " + score
-                                + "/" + spec.getTeam_cards_count()[i]);
-                    }
-                }
+                EndGamePrinter.print(spec.getTeam_names(), spec.getTeam_cards_count(),
+                        game.getTeam_score(), game.getWinner());
                 e.exitGame();
             }
-        }
-        else {
-            System.out.println("Game isn't active");
         }
     }
 

@@ -1,8 +1,7 @@
 package ui.printer;
 
-public class EndGamePrinter {
+public class ScoresPrinter {
     static public void print(String[] teamNames, int[] cardCount, int[] teamScores, int winner) {
-        System.out.println("Game Over!");
         for (int i = 0 ; i < teamNames.length; i++) {
             int score = teamScores[i];
             if (winner == i) {

@@ -84,8 +84,8 @@ public class UIImp implements UI {
                 return;
             }
             System.out.println("Enter number of relevant words (or 0 to return):");
-            boolean flag = false;
             int words = 0;
+            boolean flag = false;
             while (!flag) {
                 if (scanner.hasNextInt()) {
                     words = scanner.nextInt();
@@ -132,8 +132,6 @@ public class UIImp implements UI {
                                 e.nextTeam();
                             }
                             else {
-                                BoardPrinter.print(game.getDeck(),
-                                        spec.getRows(), spec.getColumns(), true);
                                 System.out.println("Guesses remaining: " + (words - guessesNum));
                                 System.out.println("Pick a card number (or 0 to end turn):");
                             }
@@ -147,7 +145,10 @@ public class UIImp implements UI {
             score = game.getTeam_score()[curr_team_i];
             System.out.println("Team Score: " + score + "/" + spec.getTeam_cards_count()[curr_team_i]);
             if (game.isGameOver()) {
-                EndGamePrinter.print(spec.getTeam_names(), spec.getTeam_cards_count(),
+                BoardPrinter.print(game.getDeck(),
+                        spec.getRows(), spec.getColumns(), true);
+                System.out.println("Game Over!");
+                ScoresPrinter.print(spec.getTeam_names(), spec.getTeam_cards_count(),
                         game.getTeam_score(), game.getWinner());
                 e.exitGame();
             }
@@ -157,8 +158,12 @@ public class UIImp implements UI {
     @Override
     public void displayGame(boolean hidden) {
         if (e.getGame() != null) {
-            BoardPrinter.print(e.getGame().getDeck(),
-                    e.getGameSpec().getRows(), e.getGameSpec().getColumns(), false);
+            Game game = e.getGame();
+            GameSpec spec = e.getGameSpec();
+            BoardPrinter.print(game.getDeck(),
+                    spec.getRows(), spec.getColumns(), false);
+            ScoresPrinter.print(spec.getTeam_names(), spec.getTeam_cards_count(),
+                    game.getTeam_score(), game.getWinner());
         }
         else {
             System.out.println("Game not found");

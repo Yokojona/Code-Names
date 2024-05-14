@@ -40,20 +40,12 @@ public class EngineImp implements Engine {
         if (word.isFlag())
             return 0;
         int res = 0, curr_team_i = game.getCurr_team_i();
-        if (Objects.equals(word.getTeam(), spec.getTeam_names()[curr_team_i])) {
-            game.getTeam_score()[curr_team_i]++;
-            res = 1;
-            if (game.getTeam_score()[curr_team_i] == spec.getTeam_cards_count()[curr_team_i]) {
-                game.setWinner(curr_team_i);
-                game.setGameOver();
-            }
-        }
-        else if (!Objects.equals(word.getTeam(), "BLACK") && word.getTeam() != null) {
-            int opposing_team_i = TeamIndexFinder.find(spec.getTeam_names(), word.getTeam());
-            game.getTeam_score()[opposing_team_i]++;
-            res = 2;
-            if (game.getTeam_score()[opposing_team_i] == spec.getTeam_cards_count()[opposing_team_i]) {
-                game.setWinner(opposing_team_i);
+        if (!Objects.equals(word.getTeam(), "BLACK") && word.getTeam() != null) {
+            int word_team_i = TeamIndexFinder.find(spec.getTeam_names(), word.getTeam());
+            game.getTeam_score()[word_team_i]++;
+            res = (curr_team_i == word_team_i) ? 1 : 2;
+            if (game.getTeam_score()[word_team_i] == spec.getTeam_cards_count()[word_team_i]) {
+                game.setWinner(word_team_i);
                 game.setGameOver();
             }
         }

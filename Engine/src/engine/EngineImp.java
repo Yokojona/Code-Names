@@ -21,8 +21,10 @@ public class EngineImp implements Engine {
         if (newSpec == null) { return 1; }
         int errorCode = SpecValidator.isValid(newSpec);
         boolean validSpec = errorCode == 0;
-        if (validSpec)
+        if (validSpec) {
             spec = newSpec;
+            exitGame();
+        }
         return errorCode;
     }
 

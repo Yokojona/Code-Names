@@ -6,13 +6,16 @@ import dto.WordCard;
 public class Game {
     private final WordCard[] deck;
     private final int[] team_score;
+    private final int[] team_turn_count;
     private int curr_team_i = 0;
     private int winner = -1;
     private boolean gameOver = false;
 
     public Game(GameSpec spec) {
         deck = WordCardFactory.initializeDeck(spec);
-        team_score = new int[spec.getTeam_names().length];
+        int teamNum = spec.getTeam_names().length;
+        team_score = new int[teamNum];
+        team_turn_count = new int[teamNum];
         winner = -1;
     }
 
@@ -20,6 +23,10 @@ public class Game {
 
     public int[] getTeam_score() {
         return team_score;
+    }
+
+    public int[] getTeam_turn_count() {
+        return team_turn_count;
     }
 
     public void revealCard(int cardI) {
@@ -43,7 +50,7 @@ public class Game {
     }
 
     public void increment_curr_team_i() {
-        curr_team_i++;
+        team_turn_count[curr_team_i++]++;
         if (curr_team_i >= team_score.length) {
             curr_team_i = 0;
         }

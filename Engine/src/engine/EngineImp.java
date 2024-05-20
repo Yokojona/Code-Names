@@ -8,41 +8,54 @@ import engine.jaxb.SpecValidator;
 
 import java.util.Objects;
 
+/**
+ * Implementation of the Engine interface, managing the game's operational logic including
+ * game state management, XML configuration reading, and gameplay functionality.
+ */
 public class EngineImp implements Engine {
-    private Game game;
-    private GameSpec spec;
+    private Game game;       // Instance of Game handling the current game state.
+    private GameSpec spec;   // GameSpec object holding the configuration of the current game.
 
     public EngineImp() {
+        // Constructor for EngineImp, no initializations needed here.
     }
 
     @Override
     public int readSpecXML(String file_path) {
         GameSpec newSpec = JaxbParser.ParseFile(file_path);
-        if (newSpec == null) { return 1; }
+        if (newSpec == null) {
+            return 1;  // Indicates error in parsing the XML file.
+        }
         int errorCode = SpecValidator.isValid(newSpec);
-        boolean validSpec = errorCode == 0;
-        if (validSpec) {
+        if (errorCode == 0) {
             spec = newSpec;
-            exitGame();
+            exitGame();  // Resets any existing game with the new spec loaded.
         }
         return errorCode;
     }
 
     @Override
-    public GameSpec getGameSpec() { return spec; }
+    public GameSpec getGameSpec() {
+        return spec;
+    }
 
     @Override
-    public void startNewGame() { game = new Game(spec); }
+    public void startNewGame() {
+        game = new Game(spec);
+    }
 
     @Override
     public int gameTurn(int guess) {
-        if (guess < 0 || guess > spec.getCards_count() + spec.getBlack_cards_count())
-            return -1;
+        if (guess < 0 || guess >= game.getDeck().length) {
+            return -1;  // Guess is out of valid card index range.
+        }
         WordCard word = game.getDeck()[guess];
-        if (word.isFlag())
-            return 0;
-        int res = 0, curr_team_i = game.getCurr_team_i();
-        if (!Objects.equals(word.getTeam(), "BLACK") && word.getTeam() != null) {
+        if (word.isFlag()) {
+            return 0;  // Card has already been revealed.
+        }
+        int res = 0;
+        int curr_team_i = game.getCurr_team_i();
+        if (word.getTeam() != null && !Objects.equals(word.getTeam(), "BLACK")) {
             int word_team_i = TeamIndexFinder.find(spec.getTeam_names(), word.getTeam());
             game.getTeam_score()[word_team_i]++;
             res = (curr_team_i == word_team_i) ? 1 : 2;
@@ -50,13 +63,11 @@ public class EngineImp implements Engine {
                 game.setWinner(word_team_i);
                 game.setGameOver();
             }
-        }
-        else if (Objects.equals(word.getTeam(), "BLACK")) {
+        } else if (Objects.equals(word.getTeam(), "BLACK")) {
             game.setGameOver();
-            res = 3;
-        }
-        else if (word.getTeam() == null) {
-            res = 4;
+            res = 3;  // Black card guessed, game over.
+        } else {
+            res = 4;  // Neutral card guessed.
         }
         word.setFlag();
         return res;
@@ -68,8 +79,13 @@ public class EngineImp implements Engine {
     }
 
     @Override
-    public Game getGame() { return game; }
+    public Game getGame() {
+        return game;
+    }
 
     @Override
-    public void exitGame() { game = null; }
+    public void exitGame() {
+        game = null;
+    }
 }
+

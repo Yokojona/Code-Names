@@ -3,9 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Code_Names.iml" filepath="$PROJECT_DIR$/Code_Names.iml" />
-      <module fileurl="file://$PROJECT_DIR$/DTO/DTO.iml" filepath="$PROJECT_DIR$/DTO/DTO.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Engine/Engine.iml" filepath="$PROJECT_DIR$/Engine/Engine.iml" />
-      <module fileurl="file://$PROJECT_DIR$/UI/UI.iml" filepath="$PROJECT_DIR$/UI/UI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/source/DTO/DTO.iml" filepath="$PROJECT_DIR$/source/DTO/DTO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/source/Engine/Engine.iml" filepath="$PROJECT_DIR$/source/Engine/Engine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/source/UI/UI.iml" filepath="$PROJECT_DIR$/source/UI/UI.iml" />
     </modules>
   </component>
 </project>

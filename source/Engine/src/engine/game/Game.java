@@ -27,46 +27,6 @@ public class Game {
     }
 
     /**
-     * Returns the array of WordCards that make up the game deck.
-     *
-     * @return Array of WordCard objects.
-     */
-    public WordCard[] getDeck() { return deck; }
-
-    /**
-     * Returns the scores for each team.
-     *
-     * @return Array of integers representing each team's score.
-     */
-    public int[] getTeam_score() { return team_score; }
-
-    /**
-     * Returns the turn counts for each team.
-     *
-     * @return Array of integers representing the number of turns each team has taken.
-     */
-    public int[] getTeam_turn_count() { return team_turn_count; }
-
-    /**
-     * Reveals a card at the specified index and checks for game-ending conditions.
-     *
-     * @param cardI Index of the card to reveal.
-     */
-    public void revealCard(int cardI) {
-        deck[cardI].setFlag(); // Mark the card as revealed
-        if (deck[cardI].getTeam().equals("BLACK")) { // If a black card is revealed, the game ends
-            gameOver = true;
-        }
-    }
-
-    /**
-     * Returns the index of the winning team.
-     *
-     * @return Index of the winning team, -1 if the game is not yet won.
-     */
-    public int getWinner() { return winner; }
-
-    /**
      * Sets the index of the winning team.
      *
      * @param winner Index of the winning team.
@@ -86,13 +46,6 @@ public class Game {
     public void setGameOver() { this.gameOver = true; }
 
     /**
-     * Returns the index of the current team whose turn it is.
-     *
-     * @return Current team index.
-     */
-    public int getCurr_team_i() { return curr_team_i; }
-
-    /**
      * Increments the turn index for the current team, looping back to the first team if necessary.
      */
     public void increment_curr_team_i() {
@@ -101,5 +54,12 @@ public class Game {
             curr_team_i = 0; // Reset to the first team if the end is reached
         }
     }
+
+    // Getter methods for all properties with straightforward documentation
+    public WordCard[] getDeck() { return deck; }
+    public int[] getTeam_score() { return team_score; }
+    public int[] getTeam_turn_count() { return team_turn_count; }
+    public int getWinner() { return winner; }
+    public int getCurr_team_i() { return curr_team_i; }
 }
 

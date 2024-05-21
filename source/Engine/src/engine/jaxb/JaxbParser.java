@@ -34,7 +34,7 @@ public class JaxbParser {
             // Casting is safe assuming the XML structure strictly follows the ECNGame class structure
             ecnGame = (ECNGame) unmarshaller.unmarshal(new File(file_path));
         } catch (JAXBException e) {
-            e.printStackTrace();  // Optionally log the error or handle it accordingly
+            //e.printStackTrace();   Optionally log the error or handle it accordingly
             return null;  // Return null to indicate failure in parsing
         }
 

@@ -7,11 +7,8 @@ import java.util.Scanner;
  * This class handles the process of collecting guesses and determining the number of relevant words for a turn.
  */
 public class TurnInputGetter {
-
     /**
-     * Prompts the user to enter the number of relevant words for their guess, ensuring it is within a valid range.
-     *
-     * This method asks the player to specify how many words they believe are relevant to their current turn's guess,
+     * Prompts the hinter to enter the number of relevant words for their hint,
      * ensuring that the input is a valid integer and within the specified maximum limit.
      *
      * @param scanner The Scanner object used to read input from the console.
@@ -25,7 +22,7 @@ public class TurnInputGetter {
         while (!flag) {
             if (scanner.hasNextInt()) {
                 numGuesses = scanner.nextInt();
-                if (numGuesses < 0 || numGuesses > max) {
+                if (numGuesses < 1 || numGuesses > max) {
                     System.out.println("Invalid number of relevant words");
                     scanner.nextLine();  // Clear buffer to handle next input correctly
                 } else {
@@ -40,22 +37,26 @@ public class TurnInputGetter {
     }
 
     /**
-     * Prompts the user to pick a card number for their guess.
+     * Prompts the guesser to pick a card number.
      * <p>
      * This method ensures that the user inputs a valid integer, which represents the card number they want to guess.
-     * It continues to prompt until a valid number is entered.
      *
      * @param scanner The Scanner object used to read input from the console.
      * @return The card number that the user has chosen.
      */
-    static public int guess(Scanner scanner) {
+    static public int guess(Scanner scanner, int max) {
         int guess = 0;
         boolean flag = false;
         System.out.println("Pick a card number (or 0 to end turn):");
         while (!flag) {
             if (scanner.hasNextInt()) {
                 guess = scanner.nextInt();
-                flag = true;  // Assume any integer input is valid (validation of card range should be handled elsewhere)
+                if (guess < 1 || guess > max) {
+                    System.out.println("Invalid number of card");
+                    scanner.nextLine();  // Clear buffer to handle next input correctly
+                } else {
+                    flag = true;  // Valid input, exit loop
+                }
             } else {
                 System.out.println("Only numbers please, try again");
                 scanner.nextLine();  // Clear buffer to handle next input correctly

@@ -13,8 +13,9 @@ public interface UI {
      * Displays the main menu and handles user input to navigate various game options.
      *
      * @param scanner The Scanner object used to read user input from the console.
+     * @return If the user not chose to exit.
      */
-    public void goToMenu(Scanner scanner);
+    public boolean goToMenu(Scanner scanner);
 
     /**
      * Prompts the user for a file path and sends it to the game engine to load game specifications.

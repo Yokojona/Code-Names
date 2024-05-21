@@ -29,27 +29,14 @@ public class WordCard {
     public void setFlag() { this.flag = true; }
 
     /**
-     * Returns the word on this card.
-     * @return The word associated with this card.
-     */
-    public String getWord() { return word; }
-
-    /**
-     * Returns the number of this card.
-     * @return The card's unique number.
-     */
-    public int getNum() { return num; }
-
-    /**
-     * Returns the team associated with this card.
-     * @return The name of the team, 'BLACK' for black cards, or null for neutral cards.
-     */
-    public String getTeam() { return team; }
-
-    /**
      * Checks if this card has been revealed.
      * @return true if the card has been revealed, false otherwise.
      */
     public boolean isFlag() { return flag; }
+
+    // Getter methods for all properties with straightforward documentation
+    public String getWord() { return word; }
+    public int getNum() { return num; }
+    public String getTeam() { return team; }
 }
 

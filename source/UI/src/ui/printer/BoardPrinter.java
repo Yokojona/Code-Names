@@ -6,6 +6,7 @@ import dto.WordCard;
  * Utility class for printing the game board in a structured and formatted manner.
  */
 public class BoardPrinter {
+    private static final int gap = 8; // the space between word cards.
 
     /**
      * Prints the game board to the console, formatting it according to specified dimensions and visibility settings.
@@ -17,7 +18,7 @@ public class BoardPrinter {
      */
     public static void print(WordCard[] deck, int rows, int columns, boolean hidden) {
         int cardI = 0;
-        int maxWidth = calculateMaxWidth(deck) + 8;  // Calculate the maximum width for uniform column width.
+        int maxWidth = calculateMaxWidth(deck) + gap;  // Calculate the maximum width for uniform column width.
 
         for (int row = 0; row < rows; row++) {
             // Print each word on the board with adjusted spacing to maintain column alignment.
@@ -45,7 +46,7 @@ public class BoardPrinter {
                         System.out.printf("%-" + maxWidth + "s", String.format("[%d]%s%s", cardI, status, team));
                 }
             }
-            System.out.println("\n");  // Extra line after each row for better readability
+            System.out.println("\n"); // Extra line after each row for better readability
         }
     }
 

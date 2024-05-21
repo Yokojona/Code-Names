@@ -19,9 +19,9 @@ public class Main {
     public static void main(String[] args) {
         UI ui = new UIImp(); // Create an instance of the UI implementation.
         Scanner scanner = new Scanner(System.in); // Scanner object to read user input from the console.
-
-        while (true) {
-            ui.goToMenu(scanner); // Display the main menu and handle user interaction repeatedly.
+        boolean running = true;
+        while (running) {
+            running = ui.goToMenu(scanner); // Display the main menu and handle user interaction repeatedly.
         }
     }
 }

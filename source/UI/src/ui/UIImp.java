@@ -14,6 +14,7 @@ import java.util.Scanner;
  */
 public class UIImp implements UI {
     private final Engine e;
+    private boolean running = true;
 
     /**
      * Constructs the UI implementation with a new game engine instance.
@@ -23,7 +24,7 @@ public class UIImp implements UI {
     }
 
     @Override
-    public void goToMenu(Scanner scanner) {
+    public boolean goToMenu(Scanner scanner) {
         MenuPrinter.print(e);
         if (scanner.hasNextInt()) {
             int option = scanner.nextInt();
@@ -40,6 +41,7 @@ public class UIImp implements UI {
             System.out.println("Only numbers please, try again");
             scanner.nextLine(); // clear the scanner buffer
         }
+        return running;
     }
 
     @Override
@@ -94,7 +96,7 @@ public class UIImp implements UI {
         int currGuessNum = 0;
         boolean flag = false;
         while (!flag) {
-            int guess = TurnInputGetter.guess(scanner);
+            int guess = TurnInputGetter.guess(scanner, spec.getCards_count() + spec.getBlack_cards_count());
             if (guess == 0) {
                 flag = true; // End turn if user chooses to end
             } else {
@@ -141,6 +143,6 @@ public class UIImp implements UI {
     @Override
     public void exitGame() {
         System.out.println("Goodbye!");
-        System.exit(0);
+        running = false;
     }
 }

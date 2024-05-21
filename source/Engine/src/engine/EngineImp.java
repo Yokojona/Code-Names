@@ -56,8 +56,10 @@ public class EngineImp implements Engine {
         int res = 0;
         int curr_team_i = game.getCurr_team_i();
         if (word.getTeam() != null && !Objects.equals(word.getTeam(), "BLACK")) {
+            // Find out which team the card belongs to.
             int word_team_i = TeamIndexFinder.find(spec.getTeam_names(), word.getTeam());
             game.getTeam_score()[word_team_i]++;
+            // 1 if the guess was correct, 2 if the card belongs to a different team.
             res = (curr_team_i == word_team_i) ? 1 : 2;
             if (game.getTeam_score()[word_team_i] == spec.getTeam_cards_count()[word_team_i]) {
                 game.setWinner(word_team_i);

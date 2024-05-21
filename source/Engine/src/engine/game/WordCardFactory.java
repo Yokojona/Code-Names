@@ -48,7 +48,7 @@ public class WordCardFactory {
         for (int i = 0; i < spec.getBlack_cards_count(); i++) {
             String blackWord = getNextUniqueWord(allBlackWords, usedWords);
             if (blackWord == null) {
-                return null;
+                return null;  // Return null if there are not enough unique words
             }
             deck[cardI] = new WordCard(blackWord, shuffledNums[cardI], "BLACK");
             cardI++;
@@ -58,7 +58,7 @@ public class WordCardFactory {
         while (cardI < totalCards) {
             String word = getNextUniqueWord(allGameWords, usedWords);
             if (word == null) {
-                return null;
+                return null;  // Return null if there are not enough unique words
             }
             deck[cardI] = new WordCard(word, shuffledNums[cardI], null);
             cardI++;
@@ -87,7 +87,7 @@ public class WordCardFactory {
     }
 
     /**
-     * Generates and shuffles an array of integers for unique card numbering.
+     * Generates and shuffles an array of integers for random card numbering.
      *
      * @param count The total number of cards.
      * @return A shuffled array of integers from 1 to count.

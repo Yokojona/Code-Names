@@ -4,7 +4,6 @@ import dto.GameSpec;
 import engine.jaxb.generated.ECNGame;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
@@ -16,7 +15,7 @@ public class JaxbParser {
 
     /**
      * Parses the XML file at the given file path into a GameSpec object.
-     *
+     * <p>
      * This method reads an XML file using JAXB, mapping the contents to a custom ECNGame class
      * which is assumed to match the XML structure as defined by the associated XSD.
      *

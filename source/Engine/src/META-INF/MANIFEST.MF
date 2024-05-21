@@ -1,2 +1,2 @@
 Manifest-Version: 1.0
-Class-Path: DTO.jar Engine.jar
+Class-Path: ../DTO_jar/DTO.jar ../Engine_jar/Engine.jar
